@@ -1,3 +1,7 @@
+<docs>
+  The page top navigation bar.
+</docs>
+
 <template lang="html">
   <nav>
     <div class="nav-col">
@@ -6,7 +10,7 @@
     <div class="nav-col menu">
       <ul>
         <li><a href="#">Blog</a></li>
-        <li><a href="#">About</a></li>
+        <li><router-link :to="{name: 'About'}">About</router-link></li>
       </ul>
     </div>
   </nav>
