@@ -1,23 +1,30 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
+  <div id="blog-app">
+    <page-nav></page-nav>
     <router-view></router-view>
+    <page-footer></page-footer>
   </div>
 </template>
 
 <script>
+import PageNav from './components/PageNav'
+import PageFooter from './components/PageFooter'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    'page-nav': PageNav,
+    'page-footer': PageFooter
+  }
 }
 </script>
 
 <style>
-#app {
+#blog-app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
