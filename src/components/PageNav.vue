@@ -10,6 +10,7 @@
     <div class="nav-col menu">
       <ul>
         <li><a href="#">Blog</a></li>
+        <li><a href="#">Projects</a></li>
         <li><router-link :to="{name: 'About'}">About</router-link></li>
       </ul>
     </div>

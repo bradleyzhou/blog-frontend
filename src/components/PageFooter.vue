@@ -1,3 +1,7 @@
+<docs>
+  The footer of the blog app, includes copyright info and social links.
+</docs>
+
 <template lang="html">
   <footer>
     <p class="footer-text footer-col">Copyright © 2017 Bradley Zhou. All Rights Reserved.</p>
@@ -36,10 +40,10 @@ footer {
   height: 35px;
   padding-left: 40px;
   padding-right: 40px;
-  padding-top: 5px;
-  border-top-color: #D0DAF1;
-  border-top-style: solid;
-  border-top-width: 1px;
+  padding-top: 20px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  border-top: 1px solid #D0DAF1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,6 +55,7 @@ footer .footer-col {
 
 footer p.footer-text {
   font-size: 12px;
+  color: #667AA6;
 }
 
 footer ul {
@@ -68,6 +73,7 @@ footer ul li {
 footer svg {
   width: 24px;
   height: 24px;
+  fill: #0E3589;
   opacity: 0.25;
   transition: 300ms ease-in-out;
 }
