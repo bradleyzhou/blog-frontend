@@ -15,6 +15,7 @@ export default {
   name: 'post',
   data () {
     return {
+      title: 'Bradley Zhou',
       post: {
         body: ''
       }
@@ -33,10 +34,17 @@ export default {
     getPost: function (slug = this.$route.params.slug) {
       let url = '/posts/' + slug
       this.$http.get(url).then(
-        (response) => { this.post = response.data }
+        (response) => {
+          this.post = response.data
+          if (this.post.title) {
+            this.title = this.post.title + ' - Bradley Zhou'
+          }
+          document.title = this.title
+        }
       )
     }
   },
+
   mounted: function () {
     this.getPost()
   }

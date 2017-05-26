@@ -24,8 +24,10 @@ export default {
   components: {
     'post-abstract': PostAbstract
   },
+
   data () {
     return {
+      'title': 'Blog Posts by Bradley Zhou',
       'posts': [],
       'count': NaN,
       'next': '',
@@ -46,6 +48,7 @@ export default {
   },
 
   mounted: function () {
+    document.title = this.title
     this.getPosts()
   }
 }

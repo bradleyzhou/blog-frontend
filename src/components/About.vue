@@ -11,6 +11,11 @@
 <script>
 export default {
   name: 'about',
+  data () {
+    return {
+      title: 'About Bradley Zhou'
+    }
+  },
   computed: {
     about_html: function () {
       let about = `
@@ -18,7 +23,7 @@ export default {
 
 I am Bradley and this is my personal blog. Every now and then I would write about my learnings and thoughts on software development. Welcome :D
 
-This site is written by me. I used Flask for backend RESTful API, Vue.js for frontend, and NGINX for serving web requests. These services are deployed using Docker containers managed by docker-compose. 
+This site is written by me. I used Flask for backend RESTful API, Vue.js for frontend, and NGINX for serving web requests. These services are deployed using Docker containers managed by docker-compose.
 
 # About me
 
@@ -28,6 +33,9 @@ I hope you find my site useful, or at least interesting. You can find me at [Git
       `
       return this.$md.render(about)
     }
+  },
+  mounted: function () {
+    document.title = this.title
   }
 }
 </script>
