@@ -1,7 +1,7 @@
 <template>
   <div id="blog-app">
     <page-nav></page-nav>
-    <router-view></router-view>
+    <div class="app-content"><router-view></router-view></div>
     <page-footer></page-footer>
   </div>
 </template>
@@ -31,5 +31,12 @@ body {
   text-align: center;
   color: #2c3e50;
   background-color: #fbfcfd;
+}
+
+.app-content {
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
 }
 </style>

@@ -53,8 +53,6 @@ export default {
 
 <style lang="css">
 .posts-list {
-  width: 80%;
-  margin: auto;
   display: flex;
   flex-flow: column;
   justify-content: center;
