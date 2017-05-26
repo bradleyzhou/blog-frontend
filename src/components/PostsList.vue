@@ -9,7 +9,7 @@
       :key="post.title"
       :post="post">
     </post-abstract>
-    <div class="load-more" v-if="next" @click="getPosts(next)">
+    <div class="abstract-box load-more" v-if="next" @click="getPosts(next)">
       More Posts
     </div>
   </div>
@@ -57,5 +57,29 @@ export default {
   flex-flow: column;
   justify-content: center;
   align-items: center;
+}
+
+.abstract-box {
+  padding: 10px 15px 10px 15px;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px -2px rgba(0,0,0,.1), 0 0 0 1px rgba(0,0,0,.02);
+  opacity: 0.8;
+  background-color: #FEFEFA;
+  transition: all 200ms ease-in-out;
+}
+
+.abstract-box:hover {
+  opacity: 1;
+}
+
+.load-more {
+  width: 100%;
+  font-size: 115%;
+  opacity: 0.75;
+  cursor: pointer;
+}
+
+.load-more:hover {
+  background-color: #F9F5D9;
 }
 </style>

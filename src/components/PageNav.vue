@@ -9,8 +9,8 @@
     </div>
     <div class="nav-col menu">
       <ul>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Projects</a></li>
+        <li><router-link :to="{name: 'PostsList'}">Blog</router-link></li>
+        <!-- <li><a href="#">Projects</a></li> -->
         <li><router-link :to="{name: 'About'}">About</router-link></li>
       </ul>
     </div>
@@ -69,20 +69,22 @@ nav ul li {
   margin: auto;
   height: 100%;
   box-sizing: border-box;
+  color: #00226A;
+  opacity: 0.75;
+  transition: 300ms ease-in-out;
 }
 
 nav ul li a {
   height: auto;
   margin: auto;
   font-size: 20px;
-  color: #7191D4;
+  color: inherit;
   text-decoration: none;
   padding: 0px 10px;
-  transition: 300ms ease-in-out;
 }
 
-nav ul li:hover a{
-  color: #0E3589;
+nav ul li:hover{
+  opacity: 1.0;
 }
 
 </style>

@@ -3,11 +3,23 @@
 </docs>
 
 <template lang="html">
-  <div class="post-abstract">
-    <h2><a :href="post.url">{{ post.title }}</a></h2>
+  <div class="post-abstract abstract-box">
+    <h2>
+      <router-link :to="{name: 'Post', params: {slug: slug}}">
+        {{ post.title }}
+      </router-link>
+    </h2>
     <div class="timestamp">{{ timestamp }}</div>
-    <div class="abstract"><a :href="post.url">{{ abstract }}</a></div>
-    <div class="read-more"><a :href="post.url">Read more »</a></div>
+    <div class="abstract">
+      <router-link :to="{name: 'Post', params: {slug: slug}}">
+        {{ abstract }}
+      </router-link>
+    </div>
+    <div class="read-more">
+      <router-link :to="{name: 'Post', params: {slug: slug}}">
+        Read more »
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -26,6 +38,10 @@ export default {
     timestamp: function () {
       return this.$moment(this.post.timestamp)
                  .format('MMM D YYYY')
+    },
+    slug: function () {
+      let s = this.post.url.split('/')
+      return s[s.length - 1]
     }
   }
 }
@@ -35,9 +51,6 @@ export default {
 .post-abstract {
   width: 100%;
   margin-bottom: 20px;
-  border-radius: 2px;
-  padding: 10px 15px 10px 15px;
-  box-shadow: 0 4px 16px -2px rgba(0,0,0,.1), 0 0 0 1px rgba(0,0,0,.02);
 }
 
 .post-abstract:first-child {
@@ -68,8 +81,21 @@ export default {
   text-align: left;
 }
 
-.post-abstract .read-more {
+.read-more {
+  display: inline-block;
+  border-radius: 2px;
   margin-top: 15px;
   opacity: 0.5;
+  transition: all 200ms ease-in-out;
+}
+
+.read-more:hover {
+  opacity: 1.0;
+  font-size: 125%;
+  background-color: #F9F5D9;
+}
+
+.read-more a {
+  padding: 10px;
 }
 </style>

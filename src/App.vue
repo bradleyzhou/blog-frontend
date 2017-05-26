@@ -30,7 +30,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #061535;
-  background-color: #fbfcfd;
+  background-color: #F7FCFA;
 }
 
 .app-content {
