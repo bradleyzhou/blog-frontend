@@ -1,6 +1,6 @@
 {
   "name": "blog-frontend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Blog app for blog.bradleyzhou.com",
   "author": "Bradley Zhou <bangyuzhou@gmail.com>",
   "private": true,

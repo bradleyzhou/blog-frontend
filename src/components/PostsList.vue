@@ -60,6 +60,7 @@ export default {
   flex-flow: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .abstract-box {
