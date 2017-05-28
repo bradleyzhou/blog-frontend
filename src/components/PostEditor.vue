@@ -1,5 +1,5 @@
 <docs>
-  A markdown editor for posts. Accepts 'oldTitle' and 'oldBody' strings for editing, emits 'inputTitle' and 'inputBody' when these value changes.
+  A markdown editor for posts. Accepts 'oldTitle' and 'oldBody' strings for editing, emits 'inputTitle' and 'inputBody' when these value changes, and keeps local data-bindings in 'title' and 'post'.
 </docs>
 
 <template lang="html">
@@ -7,7 +7,7 @@
     <div class="title-editor">
       <textarea class="post-title"
         ref="title_editor" placeholder="Enter Post Title Here"
-        :value="title" @input="changeTitle"
+        :value="title" @input="changeTitle($event.target.value)"
       >
       </textarea>
     </div>
@@ -17,8 +17,13 @@
       >
       </textarea>
     </div>
-    <!-- <span>{{ changed }}</span>
-    <h1>{{ title }}</h1> -->
+    <div class="test">
+      <p>Within editor:</p>
+      <p>oldTitle: {{ oldTitle }}</p>
+      <p>oldBody: {{ oldBody }}</p>
+      <p>title: {{ title }}</p>
+      <p>body: {{ body }}</p>
+    </div>
   </div>
 </template>
 
@@ -39,6 +44,10 @@ export default {
   },
 
   methods: {
+    initTitleEditor () {
+      this.title = this.oldTitle
+    },
+
     initBodyEditor () {
       let mdeConfig = {
         element: this.$refs.body_editor
@@ -46,12 +55,18 @@ export default {
       require('simplemde/dist/simplemde.min.css')
       this.mdeB = new SimpleMDE(mdeConfig)
       this.mdeB.value(this.oldBody)
+
+      // register changed body
       this.mdeB.codemirror.on('change', () => {
+        this.body = this.mdeB.value()
         this.$emit('inputBody', this.mdeB.value())
       })
     },
-    changeTitle (event) {
-      let title = event.target.value
+
+    changeTitle (title) {
+      if (!title) {
+        return
+      }
       // no new-lines in title
       this.title = title.replace(/(?:\r\n|\r|\n)/g, ' ')
       this.$emit('inputTitle', this.title)
@@ -64,6 +79,7 @@ export default {
   },
 
   mounted () {
+    this.initTitleEditor()
     this.initBodyEditor()
   },
 
@@ -73,8 +89,18 @@ export default {
   },
 
   watch: {
-    body (newVal) {
-      this.mdeB.value(newVal)
+    oldTitle (updatedTitle) {
+      // This should be called when parent component finishes asynchronous data fetching
+      this.title = updatedTitle
+    },
+    oldBody (updatedBody) {
+      // This should be called when parent component finishes asynchronous data fetching
+      this.body = updatedBody
+      // Push changes to SimpleMDE editor
+      this.mdeB.value(this.oldBody)
+    },
+    title (updatedTitle) {
+      this.changeTitle(updatedTitle)
     }
   }
 }
@@ -90,13 +116,12 @@ export default {
 .title-editor textarea {
   box-sizing: border-box;
   width: 100%;
-	/*min-height: 20px;*/
   font-size: 1.77em;
   text-align: center;
   resize: none;
   outline: none;
   border-radius: 4px;
-  border-color: #bbb;
+  border-color: #ddd;
   overflow-y: hidden;
   transition: all 200ms ease-in-out;
 }

@@ -5,11 +5,17 @@ import About from '@/components/About'
 import Post from '@/components/Post'
 import Edit from '@/components/Edit'
 import Write from '@/components/Write'
+import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '*',
+      name: 'NotFound',
+      component: NotFound
+    },
     {
       path: '/',
       name: 'PostsList',
@@ -32,6 +38,7 @@ export default new Router({
     },
     {
       path: '/write',
+      alias: '/new',
       name: 'Write',
       component: Write
     }
