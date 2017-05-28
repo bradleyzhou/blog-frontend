@@ -82,6 +82,7 @@ export default {
 }
 
 .read-more {
+  text-align: center;
   border-radius: 2px;
   margin-top: 15px;
   padding-top: 5px;
