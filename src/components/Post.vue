@@ -59,15 +59,10 @@ export default {
 }
 
 .blog-post .timestamp {
-  /*font-size: 75%;*/
+  text-align: center;
 }
 
 .post-html {
-  text-align: left;
-  font-size: 125%;
-}
-
-.post-html p {
-
+  font-size: 115%;
 }
 </style>

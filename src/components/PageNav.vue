@@ -27,6 +27,7 @@ export default {
 nav {
   width: 100%;
   height: 50px;
+  margin-bottom: 40px;
   display: flex;
   justify-content: center;
   align-items: stretch;

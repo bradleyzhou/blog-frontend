@@ -53,8 +53,8 @@ export default {
   margin-bottom: 20px;
 }
 
-.post-abstract:first-child {
-  margin-top: 20px;
+.post-abstract:last-child {
+  margin-top: 0px;
 }
 
 .post-abstract a {
@@ -82,20 +82,26 @@ export default {
 }
 
 .read-more {
-  display: inline-block;
   border-radius: 2px;
   margin-top: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
   opacity: 0.5;
   transition: all 200ms ease-in-out;
 }
 
 .read-more:hover {
   opacity: 1.0;
-  font-size: 125%;
   background-color: #F9F5D9;
 }
 
 .read-more a {
-  padding: 10px;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}
+
+.read-more a:hover {
+  text-decoration: none;
 }
 </style>

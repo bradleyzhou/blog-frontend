@@ -81,6 +81,7 @@ export default {
   font-size: 115%;
   opacity: 0.75;
   cursor: pointer;
+  text-align: center;
 }
 
 .load-more:hover {

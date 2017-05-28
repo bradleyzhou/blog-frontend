@@ -28,7 +28,6 @@ body {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #061535;
   background-color: #F7FCFA;
 }
@@ -38,5 +37,19 @@ body {
   margin: auto;
   display: flex;
   justify-content: center;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.37em;
+}
+
+h2 {
+  text-align: center;
+  font-size: 1.77em;
+}
+
+h3, p {
+  font-size: 1.33em;
 }
 </style>
