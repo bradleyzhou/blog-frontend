@@ -11,11 +11,11 @@
     <div class="login-form">
       <input type="text"
         placeholder="Username or Email"
-        v-model="credentials.nameOrEmail"
+        v-model="nameOrEmail"
       >
       <input type="password"
         placeholder="Password"
-        v-model="credentials.password"
+        v-model="password"
       >
       <button type="button" @click="submit">Log In</button>
     </div>
@@ -28,17 +28,15 @@ export default {
 
   data () {
     return {
-      credentials: {
-        nameOrEmail: '',
-        password: ''
-      },
+      nameOrEmail: '',
+      password: '',
       messege: ''
     }
   },
 
   methods: {
     validate () {
-      if (!this.credentials.nameOrEmail || !this.credentials.password) {
+      if (!this.nameOrEmail || !this.password) {
         return false
       } else {
         return true
@@ -48,24 +46,61 @@ export default {
     submit () {
       this.messege = ''
       if (!this.validate()) {
-        this.messege = 'Invalid input'
+        this.messege = 'Invalid Input'
         return
       }
       let credentials = {
-        nameOrEmail: this.credentials.nameOrEmail,
-        password: this.credentials.password
+        nameOrEmail: this.nameOrEmail,
+        password: this.password
       }
-      console.log(this.$auth)
       this.$auth.login(credentials)
+    },
+
+    clearCreds () {
+      this.nameOrEmail = ''
+      this.password = ''
     }
   },
 
   mounted () {
-    this.$auth.$on('auth-success', (msg) => { this.messege = msg })
-    this.$auth.$on('auth-error', (err) => { this.messege = err })
+    this.$auth.$on('auth-success', (msg) => {
+      this.messege = msg
+      this.clearCreds()
+    })
+    this.$auth.$on('auth-error', () => {
+      this.messege = 'Invalid Username/Email or Password'
+    })
   }
 }
 </script>
 
 <style lang="css">
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flash p {
+  border-radius: 2px;
+  text-align: center;
+  font-size: 0.75em;
+  background-color: #F9F5D9;
+}
+
+.login-form {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form input {
+  margin-top: 10px;
+  height: 2em;
+}
+
+.login-form button {
+  margin-top: 20px;
+  height: 2em;
+}
 </style>

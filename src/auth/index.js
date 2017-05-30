@@ -32,9 +32,7 @@ let auth = new Vue({
           this.$emit('auth-success', 'Login Success')
         })
         .catch((err) => {
-          console.log(err)
-          console.log('emit')
-          this.$emit('auth-error', 'Invalid Username/Email or Password')
+          this.$emit('auth-error', err)
         })
     },
 
@@ -45,7 +43,6 @@ let auth = new Vue({
     },
 
     checkAuth () {
-      console.log('Check auth')
       // get auth info from localStorage, useful when initializing
       let token = localStorage.getItem('token')
       let expiresAt = localStorage.getItem('expires_at')
@@ -60,7 +57,6 @@ let auth = new Vue({
 
   watch: {
     authenticated () {
-      console.log('authenticated: ' + this.authenticated)
       this.$emit('auth-update', 'updated')
     }
   },

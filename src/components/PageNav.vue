@@ -16,7 +16,7 @@
           <router-link :to="{name: 'Write'}">Write</router-link>
         </li>
         <li v-if="$auth.authenticated">
-          <a href='javascript:;' @click="logout">Log Out</a>
+          <a href='javascript:;' @click="logout">Logout</a>
         </li>
       </ul>
     </div>
