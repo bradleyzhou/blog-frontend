@@ -5,6 +5,7 @@ import About from '@/components/About'
 import Post from '@/components/Post'
 import Edit from '@/components/Edit'
 import Write from '@/components/Write'
+import Login from '@/components/Login'
 import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
@@ -41,6 +42,11 @@ export default new Router({
       alias: '/new',
       name: 'Write',
       component: Write
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })

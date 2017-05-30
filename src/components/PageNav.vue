@@ -12,6 +12,12 @@
         <li><router-link :to="{name: 'PostsList'}">Blog</router-link></li>
         <!-- <li><a href="#">Projects</a></li> -->
         <li><router-link :to="{name: 'About'}">About</router-link></li>
+        <li v-if="$auth.authenticated">
+          <router-link :to="{name: 'Write'}">Write</router-link>
+        </li>
+        <li v-if="$auth.authenticated">
+          <a href='javascript:;' @click="logout">Log Out</a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -19,7 +25,12 @@
 
 <script>
 export default {
-  name: 'page-nav'
+  name: 'page-nav',
+  methods: {
+    logout () {
+      this.$auth.logout()
+    }
+  }
 }
 </script>
 
@@ -44,7 +55,7 @@ nav .nav-col {
 nav .logo {
   display: inline-block;
   font-family: sans-serif;
-  font-size: 25px;
+  font-size: 1.77em;
   color: #00226A;
   line-height: 25px;
   margin: auto auto auto 40px;
@@ -78,7 +89,7 @@ nav ul li {
 nav ul li a {
   height: auto;
   margin: auto;
-  font-size: 20px;
+  font-size: 1.33em;
   color: inherit;
   text-decoration: none;
   padding: 0px 10px;
