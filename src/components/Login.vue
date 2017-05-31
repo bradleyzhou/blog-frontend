@@ -12,10 +12,12 @@
       <input type="text"
         placeholder="Username or Email"
         v-model="nameOrEmail"
+        @keyup.enter="submit"
       >
       <input type="password"
         placeholder="Password"
         v-model="password"
+        @keyup.enter="submit"
       >
       <button type="button" @click="submit">Log In</button>
     </div>
