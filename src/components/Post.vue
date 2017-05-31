@@ -13,6 +13,7 @@
 <script>
 export default {
   name: 'post',
+  props: ['slug'],
   data () {
     return {
       title: 'Bradley Zhou',
@@ -31,7 +32,7 @@ export default {
     }
   },
   methods: {
-    getPost: function (slug = this.$route.params.slug) {
+    getPost: function (slug = this.slug) {
       let url = '/posts/' + slug
       this.$http.get(url).then(
         (response) => {

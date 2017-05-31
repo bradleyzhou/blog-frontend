@@ -35,6 +35,8 @@ export default {
     'post-editor': PostEditor
   },
 
+  props: ['slug'],
+
   data () {
     return {
       api_url: '',
@@ -59,7 +61,7 @@ export default {
       )
     },
 
-    initPost (slug = this.$route.params.slug) {
+    initPost (slug = this.slug) {
       let url = '/posts/' + slug
       this.getPost(url)
     },

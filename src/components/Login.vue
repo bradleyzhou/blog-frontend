@@ -34,6 +34,8 @@ export default {
     }
   },
 
+  props: ['redirection'],
+
   methods: {
     validate () {
       if (!this.nameOrEmail || !this.password) {
@@ -59,6 +61,14 @@ export default {
     clearCreds () {
       this.nameOrEmail = ''
       this.password = ''
+    },
+
+    redirect () {
+      if (!this.redirection) {
+        this.$router.push('/')
+      } else {
+        this.$router.push(this.redirection)
+      }
     }
   },
 
@@ -66,6 +76,7 @@ export default {
     this.$auth.$on('auth-success', (msg) => {
       this.messege = msg
       this.clearCreds()
+      this.redirect()
     })
     this.$auth.$on('auth-error', () => {
       this.messege = 'Invalid Username/Email or Password'

@@ -5,7 +5,7 @@ import Vue from 'vue'
 // Whenever authentication status changes, an event is emitted.
 // Accessors to the data also have reactive behavior.
 
-let auth = new Vue({
+const auth = new Vue({
   data () {
     return {
       authenticated: false

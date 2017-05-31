@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import auth from '../auth'
 import PostsList from '@/components/PostsList'
 import About from '@/components/About'
 import Post from '@/components/Post'
@@ -10,7 +11,7 @@ import NotFound from '@/components/NotFound'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: '*',
@@ -30,23 +31,47 @@ export default new Router({
     {
       path: '/posts/:slug',
       name: 'Post',
-      component: Post
+      component: Post,
+      props: true
     },
     {
       path: '/edit/:slug',
       name: 'Edit',
-      component: Edit
+      component: Edit,
+      props: true,
+      meta: { authRequired: true }
     },
     {
       path: '/write',
       alias: '/new',
       name: 'Write',
-      component: Write
+      component: Write,
+      meta: { authRequired: true }
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      props: (route) => ({ redirection: route.query.redirect })
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.authRequired)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if (!auth.authenticated) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next() // make sure to always call next()!
+  }
+})
+
+export default router
