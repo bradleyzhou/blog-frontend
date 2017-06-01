@@ -5,7 +5,9 @@
 <template lang="html">
   <nav>
     <div class="nav-col">
-      <span class="logo">Bradley Zhou</span>
+      <span class="logo"><a href="https://www.bradleyzhou.com">
+        Bradley Zhou
+      </a></span>
     </div>
     <div class="nav-col menu">
       <ul>
@@ -60,6 +62,11 @@ nav .logo {
   line-height: 25px;
   margin: auto auto auto 40px;
   height: auto;
+}
+
+.logo a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .nav-col.menu {
