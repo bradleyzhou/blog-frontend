@@ -17,13 +17,13 @@
       >
       </textarea>
     </div>
-    <div class="test">
+    <!-- <div class="test">
       <p>Within editor:</p>
       <p>oldTitle: {{ oldTitle }}</p>
       <p>oldBody: {{ oldBody }}</p>
       <p>title: {{ title }}</p>
       <p>body: {{ body }}</p>
-    </div>
+    </div> -->
   </div>
 </template>
 

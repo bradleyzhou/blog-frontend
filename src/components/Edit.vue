@@ -15,13 +15,13 @@
       <button type="button" name="publish" @click="publish">Publish Changes</button>
       <button type="button" name="discard" @click="discard">Discard Changes</button>
     </div>
-    <div class="test">
+    <!-- <div class="test">
       <p>Outside:</p>
       <p>old_title: {{ old_title }}</p>
       <p>old_body: {{ old_body }}</p>
       <p>post_title: {{ post_title }}</p>
       <p>post_body: {{ post_body }}</p>
-    </div>
+    </div> -->
   </div>
 </template>
 
