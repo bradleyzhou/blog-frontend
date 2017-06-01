@@ -9,7 +9,7 @@
         {{ post.title }}
       </router-link>
     </h2>
-    <div class="timestamp">{{ timestamp }}</div>
+    <div class="timestamp">{{ created_at }}</div>
     <div class="abstract">
       <router-link :to="{name: 'Post', params: {slug: slug}}">
         {{ abstract }}
@@ -35,8 +35,8 @@ export default {
       }
       return abstract[0]
     },
-    timestamp: function () {
-      return this.$moment(this.post.timestamp)
+    created_at: function () {
+      return this.$moment(this.post.created_at)
                  .format('MMM D YYYY')
     },
     slug: function () {

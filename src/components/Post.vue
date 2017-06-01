@@ -5,7 +5,14 @@
 <template lang="html">
   <div class="blog-post">
     <h1>{{ post.title }}</h1>
-    <div class="timestamp">Posted at {{ timestamp }}</div>
+    <div class="timestamp">Publised at {{ created_at }}</div>
+    <div class="editor-buttons" v-if="$auth.authenticated">
+      <button class="edit"
+        @click="$router.push({name: 'Edit', params: { slug: slug }})"
+      >
+        Edit
+      </button>
+    </div>
     <div class="post-html" v-html="post_html"></div>
   </div>
 </template>
@@ -26,8 +33,8 @@ export default {
     post_html: function () {
       return this.$md.render(this.post.body)
     },
-    timestamp: function () {
-      return this.$moment(this.post.timestamp)
+    created_at: function () {
+      return this.$moment(this.post.created_at)
                  .format('MMM D YYYY')
     }
   },
