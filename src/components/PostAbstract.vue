@@ -29,7 +29,7 @@ export default {
   props: ['post'],
   computed: {
     abstract: function () {
-      let abstract = this.post.body.split('\n\n', 1)
+      let abstract = this.post.body.split('\n', 1)
       if (!abstract) {
         abstract = ''
       }
