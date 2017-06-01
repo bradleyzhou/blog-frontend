@@ -52,6 +52,15 @@ const auth = new Vue({
       } else {
         this.authenticated = false
       }
+    },
+
+    getToken () {
+      this.checkAuth()
+      if (!this.authenticated) {
+        this.$emit('token-error', 'Not authenticated')
+        return undefined
+      }
+      return localStorage.getItem('token')
     }
   },
 

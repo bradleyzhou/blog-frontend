@@ -104,9 +104,33 @@ export default {
         return
       }
       this.notice = ''
-      console.log('saving draft')
-      console.log('axios POST')
-      console.log('register redirect to edit in axios')
+      this.saveDraft()
+    },
+
+    saveDraft () {
+      // save draft to localStorage
+      this.flashNotice('Saving draft to local storage')
+      localStorage.setItem('draft_title', this.post_title)
+      localStorage.setItem('draft_body', this.post_body)
+    },
+
+    loadDraft () {
+      // load draft from localStorage
+      let title = localStorage.getItem('draft_title')
+      let body = localStorage.getItem('draft_body')
+      if (!title && !body) {
+        return
+      }
+      this.flashNotice('Loading draft from local storage')
+      this.old_title = title
+      this.old_body = body
+    },
+
+    deleteDraft () {
+      // save draft to localStorage
+      this.flashNotice('Deleting draft in local storage')
+      localStorage.removeItem('draft_title')
+      localStorage.removeItem('draft_body')
     },
 
     tryPublish () {
@@ -121,10 +145,39 @@ export default {
       this.showPublishModal = true
     },
 
+    getSlug (url) {
+      let paths = url.split('/posts/')
+      return paths[paths.length - 1]
+    },
+
     confirmPublish () {
       this.showPublishModal = false
-      console.log('axios POST')
-      console.log('register redirect to view post in axios')
+      this.saveDraft()
+      let token = this.$auth.getToken()
+      if (!token) {
+        this.flashNotice('No valid credentials found. Refresh page to login.')
+        return
+      }
+      this.$http({
+        method: 'post',
+        url: '/posts/',
+        auth: {
+          username: token,
+          password: ''
+        },
+        data: {
+          title: this.post_title,
+          body: this.post_body
+        }
+      })
+        .then((response) => {
+          let slug = this.getSlug(response.data.url)
+          this.$emit('publish-success', slug)
+        })
+        .catch((err) => {
+          this.$emit('publish-error', err)
+          console.log(err)
+        })
     },
 
     cancelPublish () {
@@ -156,7 +209,12 @@ export default {
   },
 
   mounted () {
+    this.$on('publish-success', (slug) => {
+      this.deleteDraft()
+      this.$router.push({name: 'Post', params: { slug: slug }})
+    })
     document.title = 'Write A New Post - Bradley Zhou'
+    this.loadDraft()
   }
 }
 </script>
