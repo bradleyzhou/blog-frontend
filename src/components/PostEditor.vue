@@ -1,5 +1,5 @@
 <docs>
-  A markdown editor for posts. Accepts 'oldTitle' and 'oldBody' strings for editing, emits 'inputTitle' and 'inputBody' when these value changes, and keeps local data-bindings in 'title' and 'post'.
+  A markdown editor for posts. Accepts 'oldTitle' and 'oldBody' strings for editing, emits 'title-changed' and 'body-changed' when these value changes, and keeps local data-bindings in 'title' and 'post'.
 </docs>
 
 <template lang="html">
@@ -59,7 +59,7 @@ export default {
       // register changed body
       this.mdeB.codemirror.on('change', () => {
         this.body = this.mdeB.value()
-        this.$emit('inputBody', this.mdeB.value())
+        this.$emit('body-changed', this.mdeB.value())
       })
     },
 
@@ -69,7 +69,7 @@ export default {
       }
       // no new-lines in title
       this.title = title.replace(/(?:\r\n|\r|\n)/g, ' ')
-      this.$emit('inputTitle', this.title)
+      this.$emit('title-changed', this.title)
 
       // auto-resize textarea
       let titleEl = this.$refs.title_editor

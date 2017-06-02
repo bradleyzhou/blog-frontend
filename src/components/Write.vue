@@ -35,8 +35,8 @@
     <post-editor
       :oldTitle="old_title"
       :oldBody="old_body"
-      @inputTitle="post_title = $event"
-      @inputBody="post_body = $event"
+      @title-changed="post_title = $event"
+      @body-changed="post_body = $event"
     >
     </post-editor>
     <div class="editor-buttons">
@@ -127,7 +127,7 @@ export default {
     },
 
     deleteDraft () {
-      // save draft to localStorage
+      // remove draft from localStorage
       this.flashNotice('Deleting draft in local storage')
       localStorage.removeItem('draft_title')
       localStorage.removeItem('draft_body')
