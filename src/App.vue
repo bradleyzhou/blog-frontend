@@ -49,7 +49,12 @@ h2 {
   font-size: 1.77em;
 }
 
-h3, p {
+h3 {
+  font-size: 1.33em;
+  margin-top: 1.33em;
+}
+
+p {
   font-size: 1.33em;
 }
 </style>

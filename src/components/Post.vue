@@ -6,7 +6,7 @@
   <div class="blog-post">
     <h1>{{ post.title }}</h1>
     <div class="timestamp">Publised at {{ created_at }}</div>
-    <div class="editor-buttons" v-if="$auth.authenticated">
+    <div class="post-buttons" v-if="$auth.authenticated">
       <button class="edit"
         @click="$router.push({name: 'Edit', params: { slug: slug }})"
       >
@@ -68,6 +68,11 @@ export default {
 
 .blog-post .timestamp {
   text-align: center;
+}
+
+.post-buttons {
+  display: flex;
+  justify-content: center;
 }
 
 .post-html {

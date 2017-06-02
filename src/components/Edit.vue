@@ -234,6 +234,10 @@ export default {
 </script>
 
 <style lang="css">
+.post-edit {
+  width: 100%;
+}
+
 .notice {
   text-align: center;
   font-size: 0.75em;
