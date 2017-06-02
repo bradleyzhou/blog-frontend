@@ -1,5 +1,5 @@
 <docs>
-  Editing existing post.
+  Editing a blog post. This component fetches and stores original post content into 'old_title' and 'old_body'. It feeds post content to post-editor child component via 'feeding_title' and 'feeding_title'. It receives the edited 'post_title' and 'post_body' from post-editor's 'title-changed' and 'body-changed' events. When initializing, this component will check localStorage for drafts saved just befor publishing, and load when there is one.
 </docs>
 
 <template lang="html">
@@ -33,8 +33,8 @@
       </button>
     </post-confirm-modal>
     <post-editor
-      :feedingTitle="old_title"
-      :feedingBody="old_body"
+      :feedingTitle="feeding_title"
+      :feedingBody="feeding_body"
       @title-changed="post_title = $event"
       @body-changed="post_body = $event"
     >
@@ -75,6 +75,8 @@ export default {
       api_url: '',
       old_title: '',
       old_body: '',
+      feeding_title: '',
+      feeding_body: '',
       post_title: '',
       post_body: '',
       notice: '',
@@ -89,24 +91,19 @@ export default {
       setTimeout(() => { this.notice = '' }, duration)
     },
 
-    getPost (url) {
+    loadPost (slug = this.slug) {
+      let url = '/posts/' + slug
       this.$http.get(url).then(
         (response) => {
           this.api_url = response.data.url
           this.old_title = response.data.title
           this.old_body = response.data.body
-          this.draft_title = response.data.title
-          this.draft_body = response.data.body
           if (this.old_title) {
             document.title = 'Edit - ' + this.old_title + ' - Bradley Zhou'
           }
+          this.$emit('old-post-loaded', 'Old post has been stored in old_title and old_body')
         }
       )
-    },
-
-    initPost (slug = this.slug) {
-      let url = '/posts/' + slug
-      this.getPost(url)
     },
 
     isChanged () {
@@ -126,17 +123,18 @@ export default {
       localStorage.setItem('edit_draft_body', this.post_body)
     },
 
-    loadEditDraftOrInitPost () {
-      // load edit draft from localStorage
+    loadEditDraft () {
+      // load edit draft from localStorage, if no draft load old post
       let title = localStorage.getItem('edit_draft_title')
       let body = localStorage.getItem('edit_draft_body')
       if (!title || !body) {
-        this.initPost()
+        this.feeding_title = this.old_title
+        this.feeding_body = this.old_body
         return
       }
       this.flashNotice('Loading edit draft from local storage')
-      this.$emit('update-draft-title', title)
-      this.$emit('update-draft-body', body)
+      this.feeding_title = title
+      this.feeding_body = body
     },
 
     deleteEditDraft () {
@@ -207,13 +205,12 @@ export default {
     },
 
     confirmDiscard () {
-      // refresh the old_*, which is automatically propagated to child editor component
-      let oldPost = {title: this.old_title, body: this.old_body}
-      this.old_title = undefined
-      this.old_body = undefined
+      // revert editor title and body to original old_title and old_body
+      this.feeding_title = undefined
+      this.feeding_body = undefined
       this.$nextTick(() => {
-        this.old_title = oldPost.title
-        this.old_body = oldPost.body
+        this.feeding_title = this.old_title
+        this.feeding_body = this.old_body
       })
       this.showDiscardModal = false
     },
@@ -224,7 +221,10 @@ export default {
   },
 
   mounted () {
-    this.loadEditDraftOrInitPost()
+    this.loadPost()
+    this.$on('old-post-loaded', () => {
+      this.loadEditDraft()
+    })
     this.$on('publish-success', (slug) => {
       this.deleteEditDraft()
       this.$router.push({name: 'Post', params: { slug: slug }})
