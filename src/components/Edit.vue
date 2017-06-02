@@ -33,15 +33,15 @@
       </button>
     </post-confirm-modal>
     <post-editor
-      :oldTitle="old_title"
-      :oldBody="old_body"
-      @inputTitle="post_title = $event"
-      @inputBody="post_body = $event"
+      :feedingTitle="old_title"
+      :feedingBody="old_body"
+      @title-changed="post_title = $event"
+      @body-changed="post_body = $event"
     >
     </post-editor>
     <div class="editor-buttons">
-      <button type="button" name="publish" @click="tryPublish">Publish Changes</button>
-      <button type="button" name="discard" @click="tryDiscard">Discard Changes</button>
+      <button name="publish" @click="tryPublish">Publish Changes</button>
+      <button name="discard" @click="tryDiscard">Discard Changes</button>
     </div>
     <transition name="notice">
       <p v-if="notice" class="notice">{{ notice }}</p>
@@ -95,6 +95,8 @@ export default {
           this.api_url = response.data.url
           this.old_title = response.data.title
           this.old_body = response.data.body
+          this.draft_title = response.data.title
+          this.draft_body = response.data.body
           if (this.old_title) {
             document.title = 'Edit - ' + this.old_title + ' - Bradley Zhou'
           }
@@ -117,6 +119,33 @@ export default {
              (this.post_body !== '')
     },
 
+    saveEditDraft () {
+      // save edit draft to localStorage
+      this.flashNotice('Saving edit draft to local storage')
+      localStorage.setItem('edit_draft_title', this.post_title)
+      localStorage.setItem('edit_draft_body', this.post_body)
+    },
+
+    loadEditDraftOrInitPost () {
+      // load edit draft from localStorage
+      let title = localStorage.getItem('edit_draft_title')
+      let body = localStorage.getItem('edit_draft_body')
+      if (!title || !body) {
+        this.initPost()
+        return
+      }
+      this.flashNotice('Loading edit draft from local storage')
+      this.$emit('update-draft-title', title)
+      this.$emit('update-draft-body', body)
+    },
+
+    deleteEditDraft () {
+      // remove edit_draft from localStorage
+      this.flashNotice('Deleting edit draft in local storage')
+      localStorage.removeItem('edit_draft_title')
+      localStorage.removeItem('edit_draft_body')
+    },
+
     tryPublish () {
       if (!this.isChanged()) {
         this.flashNotice('Post not changed, do nothing')
@@ -136,6 +165,7 @@ export default {
 
     confirmPublish () {
       this.showPublishModal = false
+      this.saveEditDraft()
       let token = this.$auth.getToken()
       if (!token) {
         this.flashNotice('No valid credentials found. Refresh page to login.')
@@ -194,8 +224,9 @@ export default {
   },
 
   mounted () {
-    this.initPost()
+    this.loadEditDraftOrInitPost()
     this.$on('publish-success', (slug) => {
+      this.deleteEditDraft()
       this.$router.push({name: 'Post', params: { slug: slug }})
     })
   }

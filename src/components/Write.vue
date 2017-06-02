@@ -33,8 +33,8 @@
       </button>
     </post-confirm-modal>
     <post-editor
-      :oldTitle="old_title"
-      :oldBody="old_body"
+      :feedingTitle="feeding_title"
+      :feedingBody="feeding_body"
       @title-changed="post_title = $event"
       @body-changed="post_body = $event"
     >
@@ -69,8 +69,8 @@ export default {
 
   data () {
     return {
-      old_title: '',
-      old_body: '',
+      feeding_title: '',
+      feeding_body: '',
       post_title: '',
       post_body: '',
       notice: '',
@@ -122,8 +122,8 @@ export default {
         return
       }
       this.flashNotice('Loading draft from local storage')
-      this.old_title = title
-      this.old_body = body
+      this.feeding_title = title
+      this.feeding_body = body
     },
 
     deleteDraft () {
@@ -194,11 +194,11 @@ export default {
     },
 
     confirmDiscard () {
-      this.old_title = undefined
-      this.old_body = undefined
+      this.feeding_title = undefined
+      this.feeding_body = undefined
       this.$nextTick(() => {
-        this.old_title = ''
-        this.old_body = ''
+        this.feeding_title = ''
+        this.feeding_body = ''
       })
       this.showDiscardModal = false
     },

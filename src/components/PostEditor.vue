@@ -1,5 +1,5 @@
 <docs>
-  A markdown editor for posts. Accepts 'oldTitle' and 'oldBody' strings for editing, emits 'title-changed' and 'body-changed' when these value changes, and keeps local data-bindings in 'title' and 'post'.
+  A markdown editor for posts. Accepts 'feedingTitle' and 'feedingBody' strings for editing, emits 'title-changed' and 'body-changed' when these value changes, and keeps local data-bindings in 'title' and 'post'.
 </docs>
 
 <template lang="html">
@@ -19,8 +19,8 @@
     </div>
     <!-- <div class="test">
       <p>Within editor:</p>
-      <p>oldTitle: {{ oldTitle }}</p>
-      <p>oldBody: {{ oldBody }}</p>
+      <p>feedingTitle: {{ feedingTitle }}</p>
+      <p>feedingBody: {{ feedingBody }}</p>
       <p>title: {{ title }}</p>
       <p>body: {{ body }}</p>
     </div> -->
@@ -33,7 +33,7 @@ import SimpleMDE from 'simplemde'
 export default {
   name: 'post-editor',
 
-  props: ['oldTitle', 'oldBody'],
+  props: ['feedingTitle', 'feedingBody'],
 
   data () {
     return {
@@ -45,7 +45,7 @@ export default {
 
   methods: {
     initTitleEditor () {
-      this.title = this.oldTitle
+      this.title = this.feedingTitle
     },
 
     initBodyEditor () {
@@ -54,7 +54,7 @@ export default {
       }
       require('simplemde/dist/simplemde.min.css')
       this.mdeB = new SimpleMDE(mdeConfig)
-      this.mdeB.value(this.oldBody)
+      this.mdeB.value(this.feedingBody)
 
       // register changed body
       this.mdeB.codemirror.on('change', () => {
@@ -89,15 +89,15 @@ export default {
   },
 
   watch: {
-    oldTitle (updatedTitle) {
+    feedingTitle (updatedTitle) {
       // This should be called when parent component finishes asynchronous data fetching
       this.title = updatedTitle
     },
-    oldBody (updatedBody) {
+    feedingBody (updatedBody) {
       // This should be called when parent component finishes asynchronous data fetching
       this.body = updatedBody
       // Push changes to SimpleMDE editor
-      this.mdeB.value(this.oldBody)
+      this.mdeB.value(this.feedingBody)
     },
     title (updatedTitle) {
       this.changeTitle(updatedTitle)
