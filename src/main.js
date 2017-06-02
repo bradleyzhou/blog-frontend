@@ -10,7 +10,7 @@ import MarkDownIt from 'markdown-it'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
-axios.defaults.baseURL = '/api/v1.0'
+Vue.prototype.$http.defaults.baseURL = '/api/v1.0'
 Vue.prototype.$moment = moment
 Vue.prototype.$md = new MarkDownIt()
 
