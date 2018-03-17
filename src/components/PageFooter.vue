@@ -4,7 +4,7 @@
 
 <template lang="html">
   <footer>
-    <p class="footer-text footer-col">© 2017 Bradley Zhou. All Rights Reserved.</p>
+    <p class="footer-text footer-col">© 2017-2018 Bradley Zhou. All Rights Reserved.</p>
     <ul class="footer-col">
       <li>
         <a target="_blank" href="https://github.com/bradleyzhou">
