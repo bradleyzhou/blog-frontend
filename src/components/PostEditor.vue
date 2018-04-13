@@ -31,6 +31,7 @@
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import SimpleMDE from 'simplemde';
 
+@Component
 export default class PostEditor extends Vue {
   @Prop({ default: '' })
   public feedingTitle!: string;
