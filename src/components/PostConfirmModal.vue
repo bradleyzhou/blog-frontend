@@ -36,13 +36,15 @@
   </transition>
 </template>
 
-<script>
-export default {
-  name: 'post-confirm-modal'
+<script lang-"ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+@Component
+export default class PostConfirmModal extends Vue {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
 .modal-mask {
   position: fixed;
   z-index: 9998;

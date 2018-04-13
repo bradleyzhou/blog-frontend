@@ -27,103 +27,102 @@
   </div>
 </template>
 
-<script>
-import SimpleMDE from 'simplemde'
+<script lang="ts">
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import SimpleMDE from 'simplemde';
 
-export default {
-  name: 'post-editor',
+export default class PostEditor extends Vue {
+  @Prop({ default: '' })
+  public feedingTitle!: string;
 
-  props: ['feedingTitle', 'feedingBody'],
+  @Prop({ default: '' })
+  public feedingBody!: string;
 
-  data () {
-    return {
-      title: '',
-      body: '',
-      changed: false
+  public title = '';
+  public body = '';
+  protected mdeB!: SimpleMDE;
+
+  private initTitleEditor() {
+    this.title = this.feedingTitle;
+  }
+
+  private initBodyEditor() {
+    const mdeConfig: SimpleMDE.Options = {
+      element: this.$refs.body_editor as HTMLElement,
+    };
+    require('simplemde/dist/simplemde.min.css');
+    this.mdeB = new SimpleMDE(mdeConfig);
+    this.mdeB.value(this.feedingBody);
+
+    // register changed body
+    this.mdeB.codemirror.on('change', () => {
+      this.body = this.mdeB.value();
+      this.$emit('body-changed', this.mdeB.value());
+    });
+  }
+
+  public changeTitle(title: string) {
+    if (!title) {
+      return;
     }
-  },
+    // no new-lines in title
+    this.title = title.replace(/(?:\r\n|\r|\n)/g, ' ');
+    this.$emit('title-changed', this.title);
 
-  methods: {
-    initTitleEditor () {
-      this.title = this.feedingTitle
-    },
+    // auto-resize textarea
+    const titleEl = this.$refs.title_editor as HTMLElement;
+    // titleEl.style.height = 'auto';
+    titleEl.style.height = titleEl.scrollHeight + 'px';
+  }
 
-    initBodyEditor () {
-      let mdeConfig = {
-        element: this.$refs.body_editor
-      }
-      require('simplemde/dist/simplemde.min.css')
-      this.mdeB = new SimpleMDE(mdeConfig)
-      this.mdeB.value(this.feedingBody)
+  protected mounted() {
+    this.initTitleEditor();
+    this.initBodyEditor();
+  }
 
-      // register changed body
-      this.mdeB.codemirror.on('change', () => {
-        this.body = this.mdeB.value()
-        this.$emit('body-changed', this.mdeB.value())
-      })
-    },
+  protected beforeDestroy() {
+    this.mdeB.toTextArea();
+  }
 
-    changeTitle (title) {
-      if (!title) {
-        return
-      }
-      // no new-lines in title
-      this.title = title.replace(/(?:\r\n|\r|\n)/g, ' ')
-      this.$emit('title-changed', this.title)
+  @Watch('feedingTitle')
+  private onFeedingTitleChange(updatedTitle: string) {
+    // This should be called when parent component finishes asynchronous data fetching
+    this.title = updatedTitle;
+  }
 
-      // auto-resize textarea
-      let titleEl = this.$refs.title_editor
-      titleEl.style.height = 'auto'
-      titleEl.style.height = titleEl.scrollHeight + 'px'
-    }
-  },
+  @Watch('feedingBody')
+  private onFeedingBodyChange(updatedBody: string) {
+    // This should be called when parent component finishes asynchronous data fetching
+    this.body = updatedBody;
+    // Push changes to SimpleMDE editor
+    this.mdeB.value(this.feedingBody);
+  }
 
-  mounted () {
-    this.initTitleEditor()
-    this.initBodyEditor()
-  },
-
-  beforeDestroy () {
-    this.mdeB.toTextArea()
-    this.mdeB = null
-  },
-
-  watch: {
-    feedingTitle (updatedTitle) {
-      // This should be called when parent component finishes asynchronous data fetching
-      this.title = updatedTitle
-    },
-    feedingBody (updatedBody) {
-      // This should be called when parent component finishes asynchronous data fetching
-      this.body = updatedBody
-      // Push changes to SimpleMDE editor
-      this.mdeB.value(this.feedingBody)
-    },
-    title (updatedTitle) {
-      this.changeTitle(updatedTitle)
-    }
+  @Watch('title')
+  private onTitleChange(updatedTitle: string) {
+    this.changeTitle(updatedTitle);
   }
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
 .title-editor {
   width: 100%;
   text-align: center;
   margin-bottom: 20px;
-}
 
-.title-editor textarea {
-  box-sizing: border-box;
-  width: 100%;
-  font-size: 1.77em;
-  text-align: center;
-  resize: none;
-  outline: none;
-  border-radius: 4px;
-  border-color: #ddd;
-  overflow-y: hidden;
-  transition: all 200ms ease-in-out;
+  textarea {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.77em;
+    text-align: center;
+    resize: none;
+    outline: none;
+    border-radius: 4px;
+    border-color: #ddd;
+    overflow-y: hidden;
+    transition: all 200ms ease-in-out;
+  }
 }
 
 .body-editor {
@@ -133,10 +132,10 @@ export default {
 .editor-buttons {
   display: flex;
   justify-content: flex-end;
-}
 
-.editor-buttons button {
-  font-size: 0.75em;
-  margin: auto 5px auto 5px;
+  button {
+    font-size: 0.75em;
+    margin: auto 5px auto 5px;
+  }
 }
 </style>

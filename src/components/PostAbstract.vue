@@ -23,62 +23,72 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'post-abstract',
-  props: ['post'],
-  computed: {
-    abstract: function () {
-      let abstract = this.post.body.split('\n', 1)
-      if (!abstract) {
-        abstract = ''
-      }
-      return abstract[0]
-    },
-    created_at: function () {
-      return this.$moment(this.post.created_at)
-                 .format('MMM D YYYY')
-    },
-    slug: function () {
-      let s = this.post.url.split('/')
-      return s[s.length - 1]
+<script lang="ts">
+import moment from 'moment';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { IPost } from '@/views/Post.vue';
+
+@Component
+export default class PostAbstract extends Vue {
+  @Prop({ default: {
+    title: '',
+    body: '',
+    url: '',
+    created_at: '',
+  } as IPost })
+  public post!: IPost;
+
+  public get abstract() {
+    let abstract = this.post.body.split('\n', 1);
+    if (!abstract) {
+      abstract = [''];
     }
+    return abstract[0];
+  }
+
+  public get created_at() {
+    return moment(this.post.created_at)
+                 .format('MMM D YYYY');
+  }
+
+  public get slug() {
+    const s = this.post.url.split('/');
+    return s[s.length - 1];
   }
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
 .post-abstract {
   width: 100%;
   margin-bottom: 20px;
-}
 
-.post-abstract:last-child {
-  margin-top: 0px;
-}
+  &:last-child {
+    margin-top: 0px;
+  }
 
-.post-abstract a {
-  text-decoration: none;
-  color: inherit;
-}
+  a {
+    text-decoration: none;
+    color: inherit;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
-.post-abstract a:hover {
-  text-decoration: underline;
-}
+  h2 {
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
 
-.post-abstract h2 {
-  text-align: left;
-  margin-top: 0px;
-  margin-bottom: 0px;
-}
+  .timestamp {
+    text-align: left;
+    margin-bottom: 15px;
+  }
 
-.post-abstract .timestamp {
-  text-align: left;
-  margin-bottom: 15px;
-}
-
-.post-abstract .abstract {
-  text-align: left;
+  .abstract {
+    text-align: left;
+  }
 }
 
 .read-more {
@@ -89,20 +99,19 @@ export default {
   padding-bottom: 5px;
   opacity: 0.5;
   transition: all 200ms ease-in-out;
-}
 
-.read-more:hover {
-  opacity: 1.0;
-  background-color: #F9F5D9;
-}
+  &:hover {
+    opacity: 1.0;
+    background-color: #F9F5D9;
+  }
 
-.read-more a {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-}
-
-.read-more a:hover {
-  text-decoration: none;
+  a {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }
 </style>

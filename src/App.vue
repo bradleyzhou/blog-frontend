@@ -6,20 +6,22 @@
   </div>
 </template>
 
-<script>
-import PageNav from './components/PageNav'
-import PageFooter from './components/PageFooter'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import PageNav from '@/components/PageNav.vue';
+import PageFooter from '@/components/PageFooter.vue';
 
-export default {
-  name: 'app',
+@Component({
   components: {
     'page-nav': PageNav,
-    'page-footer': PageFooter
-  }
+    'page-footer': PageFooter,
+  },
+})
+export default class BlogApp extends Vue {
 }
 </script>
 
-<style>
+<style lang="scss">
 body {
   margin: 0px;
 }
