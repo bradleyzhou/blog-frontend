@@ -3,3 +3,15 @@ node_js:
   - "9"
 
 script: npm run test
+
+before_deploy:
+  - npm run build
+  - tar cvzf blog-frontend-${TRAVIS_TAG}.tar.gz dist
+
+deploy:
+  provider: releases
+  api_key: ${GITHUB_RELEASE_TOKEN}
+  file: blog-frontend-${TRAVIS_TAG}.tar.gz
+  skip_cleanup: true
+  on:
+    tags: true
